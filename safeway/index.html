@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Safeway J4U Coupon Clipper</title>
+    <style>
+      body {
+        font-family: arial, sans-serif;
+      }
+      img {
+        box-shadow: 2px 2px 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Bookmarklet</h3>
+    Drag this link to your bookmarks bar: <a href="javascript:(function(){if(0>window.location.href.indexOf('safeway.com'))window.location.replace('http://www.safeway.com/ShopStores/Justforu-Coupons.page');else{var a=0,h=function(e){return function(){var b=e,a=curtop=0;if(b.offsetParent){do a+=b.offsetLeft,curtop+=b.offsetTop;while(b=b.offsetParent)}window.scrollTo&&window.scrollTo(a,curtop-150);e.click()}},k=function(a){return a},c=function(a){return a.parentNode},d=function(e,b){for(var d=document.querySelectorAll(e),c=0,f=0,g;g=d[f++];)'none'!=getComputedStyle(b(g)).display&&(++c,window.setTimeout(h(g),a),a+=1E3);return c},f=function(){0<d('.lt-add-offer-gallery',k)+d('.lt-add-offer-link',c)+d('.lt-button-primary',c)&&(window.setTimeout(f,a),a+=1E3)};f()}})();">Just4U</a><br><br>
+    Example:<br>
+    <img src="bookmarklet.png">
+
+    <h3>Instructions</h3>
+    <ol>
+      <li>Log in to the <a href="http://www.safeway.com/ShopStores/Justforu-CouponCenter.page?">safeway.com Coupon Center</a></li>
+      <li>Wait until the page loads, and then click the "Just4U" bookmarklet you created above.</li>
+      <li>Each item will be added to your card sequentially.</li>
+      <li>
+        After you see that all items have been added, repeat this process on the "Your Club Specials" and "My Card" pages.<br>
+        <img src="j4u_header.png" style="border: 1px solid gray">
+      </li>
+    </ol>
+    <h3>Uncompiled Source</h3>
+    <pre>
+(function() {
+  if (window.location.href.indexOf('safeway.com') < 0) {
+    window.location.replace('http://www.safeway.com/ShopStores/Justforu-Coupons.page');
+  } else {
+    var delay = 0;
+    var scrollToElement = function(el) {
+      var curleft = curtop = 0;
+      if (el.offsetParent) {
+        do {
+          curleft += el.offsetLeft;
+          curtop += el.offsetTop;
+        } while (el = el.offsetParent);
+      }
+      window.scrollTo && window.scrollTo(curleft, curtop - 150);
+    };
+    var getClickFn = function(el) {
+      return function() {
+        scrollToElement(el);
+        el.click();
+      }
+    };
+    var getSelf = function(el) {
+      return el;
+    };
+    var getParent = function(el) {
+      return el.parentNode;
+    };
+    var clickActive = function(selector, getter) {
+      var links = document.querySelectorAll(selector);
+      var count = 0;
+      for (var i = 0, link; link = links[i++];) {
+        if (getComputedStyle(getter(link)).display != 'none') {
+          ++count;
+          window.setTimeout(getClickFn(link), delay);
+          delay += 1000;
+        }
+      }
+      return count;
+    };
+    var clickAllActive = function() {
+      if (clickActive('.lt-add-offer-gallery', getSelf) +
+          clickActive('.lt-add-offer-link', getParent) +
+          clickActive('.lt-button-primary', getParent) > 0) {
+        window.setTimeout(clickAllActive, delay);
+        delay += 1000;
+      }
+    };
+    clickAllActive();
+  }
+})()
+    </pre>
+  </body>
+</html>
