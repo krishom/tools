@@ -4,14 +4,21 @@
   } else {
     var delay = 0;
     var scrollToElement = function(el) {
-      var curleft = curtop = 0;
+      var curLeft = curTop = 0;
       if (el.offsetParent) {
         do {
-          curleft += el.offsetLeft;
-          curtop += el.offsetTop;
+          curLeft += el.offsetLeft;
+          curTop += el.offsetTop;
         } while (el = el.offsetParent);
       }
-      window.scrollTo && window.scrollTo(curleft, curtop - 150);
+      window.scrollTo && window.scrollTo(curLeft, curTop - 150);
+    };
+    var scrollToBottom = function() {
+      window.scrollTo && window.scrollTo(0, document.body.offsetHeight);
+      window.setTimeout(function() {
+        window.scrollBy && window.scrollBy(0, -1)
+      }, 100);
+      window.setTimeout(clickAllActive, 1000);
     };
     var getClickFn = function(el) {
       return function() {
@@ -38,11 +45,11 @@
       return count;
     };
     var clickAllActive = function() {
+      delay = 0;
       if (clickActive('.lt-add-offer-gallery', getSelf) +
           clickActive('.lt-add-offer-link', getParent) +
           clickActive('.lt-button-primary', getParent) > 0) {
-        window.setTimeout(clickAllActive, delay);
-        delay += 1000;
+        window.setTimeout(scrollToBottom, delay);
       }
     };
     clickAllActive();

@@ -13,7 +13,7 @@
   </head>
   <body>
     <h3>Bookmarklet</h3>
-    Drag this link to your bookmarks bar: <a href="javascript:(function(){if(0>window.location.href.indexOf('safeway.com'))window.location.replace('http://www.safeway.com/ShopStores/Justforu-Coupons.page');else{var a=0,h=function(e){return function(){var b=e,a=curtop=0;if(b.offsetParent){do a+=b.offsetLeft,curtop+=b.offsetTop;while(b=b.offsetParent)}window.scrollTo&&window.scrollTo(a,curtop-150);e.click()}},k=function(a){return a},c=function(a){return a.parentNode},d=function(e,b){for(var d=document.querySelectorAll(e),c=0,f=0,g;g=d[f++];)'none'!=getComputedStyle(b(g)).display&&(++c,window.setTimeout(h(g),a),a+=1E3);return c},f=function(){0<d('.lt-add-offer-gallery',k)+d('.lt-add-offer-link',c)+d('.lt-button-primary',c)&&(window.setTimeout(f,a),a+=1E3)};f()}})();">Just4U</a><br><br>
+    Drag this link to your bookmarks bar: <a href="javascript:(function(){if(0>window.location.href.indexOf('safeway.com'))window.location.replace('http://www.safeway.com/ShopStores/Justforu-Coupons.page');else{var a=0,h=function(){window.scrollTo&&window.scrollTo(0,document.body.offsetHeight);window.setTimeout(function(){window.scrollBy&&window.scrollBy(0,-1)},100);window.setTimeout(c,1E3)},k=function(e){return function(){var b=e,a=curTop=0;if(b.offsetParent){do a+=b.offsetLeft,curTop+=b.offsetTop;while(b=b.offsetParent)}window.scrollTo&&window.scrollTo(a,curTop-150);e.click()}},l=function(a){return a},f=function(a){return a.parentNode},d=function(e,b){for(var d=document.querySelectorAll(e),c=0,f=0,g;g=d[f++];)'none'!=getComputedStyle(b(g)).display&&(++c,window.setTimeout(k(g),a),a+=1E3);return c},c=function(){a=0;0<d('.lt-add-offer-gallery',l)+d('.lt-add-offer-link',f)+d('.lt-button-primary',f)&&window.setTimeout(h,a)};c()}})();">Just4U</a><br><br>
     Example:<br>
     <img src="bookmarklet.png">
 
@@ -35,14 +35,21 @@
   } else {
     var delay = 0;
     var scrollToElement = function(el) {
-      var curleft = curtop = 0;
+      var curLeft = curTop = 0;
       if (el.offsetParent) {
         do {
-          curleft += el.offsetLeft;
-          curtop += el.offsetTop;
+          curLeft += el.offsetLeft;
+          curTop += el.offsetTop;
         } while (el = el.offsetParent);
       }
-      window.scrollTo && window.scrollTo(curleft, curtop - 150);
+      window.scrollTo && window.scrollTo(curLeft, curTop - 150);
+    };
+    var scrollToBottom = function() {
+      window.scrollTo && window.scrollTo(0, document.body.offsetHeight);
+      window.setTimeout(function() {
+        window.scrollBy && window.scrollBy(0, -1)
+      }, 100);
+      window.setTimeout(clickAllActive, 1000);
     };
     var getClickFn = function(el) {
       return function() {
@@ -72,7 +79,7 @@
       if (clickActive('.lt-add-offer-gallery', getSelf) +
           clickActive('.lt-add-offer-link', getParent) +
           clickActive('.lt-button-primary', getParent) > 0) {
-        window.setTimeout(clickAllActive, delay);
+        window.setTimeout(scrollToBottom, delay);
         delay += 1000;
       }
     };
