@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # Extracts the audio track from mp4 and flv videos.
 # Adds artist and title info from the file name.
 
@@ -10,13 +10,17 @@ if [[ -z "$binary" ]]; then
   exit 1
 fi
 
-for file in ~/Music/*.mp4
+for file in $1/*.flv $1/*.mp4
 do
-  out="$(echo $file | sed -r 's/(flv|mp4)$/m4a/')"
+  m4a="${file/%.flv/.m4a}"
+  m4a="${m4a/%.mp4/.m4a}"
+  echo "$m4a"
   # Skip files that have already been converted.
-  if [[ ! -f $out ]]; then
-    artist="$(basename "$file" | sed -r 's/ *-.*//')"
-    title="$(basename "$file" | sed -r 's/.*- *(.*)\.(flv|mp4)/\1/')"
-    $binary -i "$file" -vn -acodec copy -metadata artist="$artist" -metadata title="$title" "$out"
+  if [[ ! -f "$m4a" ]]; then
+    basefile="$(basename "$m4a")"
+    artist="${basefile/ -*/}"
+    title="${basefile/*- /}"
+    title="${title/%.m4a/}"
+    $binary -i "$file" -vn -acodec copy -metadata artist="$artist" -metadata title="$title" "$m4a"
   fi
 done
