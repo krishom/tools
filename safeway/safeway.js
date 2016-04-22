@@ -1,6 +1,7 @@
 (function() {
-  if (window.location.href.indexOf('safeway.com') < 0) {
-    window.location.replace('http://www.safeway.com/ShopStores/Justforu-Coupons.page');
+  var url = 'safeway.com/ShopStores/Justforu-Coupons.page';
+  if (window.location.href.indexOf(url) < 0) {
+    window.location.replace('http://' + url);
     return;
   }
   var toClick = [];
@@ -17,7 +18,7 @@
   var scrollToBottom = function() {
     window.scrollTo && window.scrollTo(0, document.body.offsetHeight);
     window.setTimeout(function() {
-      window.scrollBy && window.scrollBy(0, -1)
+      window.scrollBy && window.scrollBy(0, -1);
     }, 100);
     window.setTimeout(clickAllActive, 2000);
   };
@@ -28,18 +29,15 @@
     return el.parentNode;
   };
   var findActive = function(selector, getter) {
-    function isVisible(link) {
-      return getComputedStyle(getter(link)).display != 'none';
-    }
-    var visibleLinks = [];
+    var count = 0;
     var links = document.querySelectorAll(selector);
     for (var i = 0, link; link = links[i++];) {
       if (getComputedStyle(getter(link)).display != 'none') {
-        visibleLinks.push(link);
+        toClick.push(link);
+        count++;
       }
     }
-    toClick = toClick.concat(visibleLinks);
-    return visibleLinks.length;
+    return count;
   };
   var clickNext = function() {
     var el = toClick.shift();
@@ -61,4 +59,4 @@
     }
   };
   clickAllActive();
-})()
+})();
