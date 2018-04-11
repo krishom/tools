@@ -58,5 +58,5 @@
       clickNext();
     }
   };
-  clickAllActive();
+  scrollToBottom();
 })();
