@@ -1,7 +1,7 @@
 (function() {
-  var url = 'safeway.com/ShopStores/Justforu-Coupons.page';
+  var url = 'www.safeway.com/justforu/coupons-deals.html';
   if (window.location.href.indexOf(url) < 0) {
-    window.location.replace('http://' + url);
+    window.location.replace('https://' + url);
     return;
   }
   var toClick = [];
@@ -16,6 +16,7 @@
     window.scrollTo && window.scrollTo(curLeft, curTop - 150);
   };
   var scrollToBottom = function() {
+    document.querySelectorAll('.load-more').forEach((e) => e.click());
     window.scrollTo && window.scrollTo(0, document.body.offsetHeight);
     window.setTimeout(function() {
       window.scrollBy && window.scrollBy(0, -1);
@@ -52,9 +53,7 @@
     }
   };
   var clickAllActive = function() {
-    if (findActive('.lt-add-offer-gallery', getSelf) +
-        findActive('.lt-add-offer-link', getParent) +
-        findActive('.lt-button-primary', getParent) > 0) {
+    if (findActive('.grid-coupon-btn', getSelf) > 0) {
       clickNext();
     }
   };
