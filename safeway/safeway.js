@@ -23,17 +23,11 @@
     }, 100);
     window.setTimeout(clickAllActive, 2000);
   };
-  var getSelf = function(el) {
-    return el;
-  };
-  var getParent = function(el) {
-    return el.parentNode;
-  };
-  var findActive = function(selector, getter) {
+  var findActive = function(selector) {
     var count = 0;
-    var links = document.querySelectorAll(selector);
+    var links = [...document.querySelectorAll(selector)].filter((link) => link.id.indexOf('clipped') === -1);
     for (var i = 0, link; link = links[i++];) {
-      if (getComputedStyle(getter(link)).display != 'none') {
+      if (getComputedStyle(link).display != 'none') {
         toClick.push(link);
         count++;
       }
@@ -53,7 +47,7 @@
     }
   };
   var clickAllActive = function() {
-    if (findActive('.grid-coupon-btn', getSelf) > 0) {
+    if (findActive('.grid-coupon-btn') > 0) {
       clickNext();
     }
   };
