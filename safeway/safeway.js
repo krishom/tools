@@ -1,5 +1,5 @@
 (function() {
-  var url = 'www.safeway.com/justforu/coupons-deals.html';
+  var url = 'www.safeway.com/foru/coupons-deals.html';
   if (window.location.href.indexOf(url) < 0) {
     window.location.replace('https://' + url);
     return;
