@@ -1,7 +1,7 @@
 (function() {
-  var url = 'www.safeway.com/foru/coupons-deals.html';
+  var url = '/foru/coupons-deals.html';
   if (window.location.href.indexOf(url) < 0) {
-    window.location.replace('https://' + url);
+    window.location.replace('https://www.safeway.com' + url);
     return;
   }
   var toClick = [];

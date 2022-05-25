@@ -13,21 +13,21 @@
   </head>
   <body>
     <h3>Bookmarklet</h3>
-    Drag this link to your bookmarks bar: <a href="javascript:(function(){if(0>window.location.href.indexOf('www.safeway.com/foru/coupons-deals.html'))window.location.replace('https://www.safeway.com/justforu/coupons-deals.html');else{var d=[],f=function(){document.querySelectorAll('.load-more').forEach(function(a){return a.click()});window.scrollTo&&window.scrollTo(0,document.body.offsetHeight);window.setTimeout(function(){window.scrollBy&&window.scrollBy(0,-1)},100);window.setTimeout(h,2E3)},g=function(){var a=d.shift();if(a){var b=a,c=curTop=0;if(b.offsetParent){do c+= b.offsetLeft,curTop+=b.offsetTop;while(b=b.offsetParent)}window.scrollTo&&window.scrollTo(c,curTop-150);a.click()}0<d.length?window.setTimeout(g,500):f()},h=function(){for(var a=0,b=[...document.querySelectorAll('.grid-coupon-btn')].filter((link)=>link.id.indexOf('clipped')===-1),c=0,e;e=b[c++];)'none'!=getComputedStyle(e).display&&(d.push(e),a++);0<a&&g()};f()}})();">Just4U</a><br><br>
+    Drag this link to your bookmarks bar: <a href="javascript:(function(){if(0>window.location.href.indexOf('/foru/coupons-deals.html'))window.location.replace('https://www.safeway.com/foru/coupons-deals.html');else{var d=[],f=function(){document.querySelectorAll('.load-more').forEach(function(a){return a.click()});window.scrollTo&&window.scrollTo(0,document.body.offsetHeight);window.setTimeout(function(){window.scrollBy&&window.scrollBy(0,-1)},100);window.setTimeout(h,2E3)},g=function(){var a=d.shift();if(a){var b=a,c=curTop=0;if(b.offsetParent){do c+= b.offsetLeft,curTop+=b.offsetTop;while(b=b.offsetParent)}window.scrollTo&&window.scrollTo(c,curTop-150);a.click()}0<d.length?window.setTimeout(g,500):f()},h=function(){for(var a=0,b=[...document.querySelectorAll('.grid-coupon-btn')].filter((link)=>link.id.indexOf('clipped')===-1),c=0,e;e=b[c++];)'none'!=getComputedStyle(e).display&&(d.push(e),a++);0<a&&g()};f()}})();">Just4U</a><br><br>
     Example:<br>
     <img src="bookmarklet.png">
     <h3>Instructions</h3>
     <ol>
-      <li>Log in to the <a href="http://www.safeway.com/ShopStores/Justforu-CouponCenter.page?">safeway.com Coupon Center</a></li>
+      <li>Log in to the <a href="https://www.safeway.com/account/sign-in.html">safeway.com Coupon Center</a></li>
       <li>When the page loads, click the "Just4U" bookmarklet you created above.</li>
       <li>Each item will be added to your card sequentially.</li>
     </ol>
     <h3>Uncompiled Source</h3>
     <pre>
 (function() {
-  var url = 'www.safeway.com/foru/coupons-deals.html';
+  var url = '/foru/coupons-deals.html';
   if (window.location.href.indexOf(url) < 0) {
-    window.location.replace('https://' + url);
+    window.location.replace('https://www.safeway.com' + url);
     return;
   }
   var toClick = [];
