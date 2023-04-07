@@ -13,7 +13,8 @@
   </head>
   <body>
     <h3>Bookmarklet</h3>
-    Drag this link to your bookmarks bar: <a href="javascript:(function(){if(0>window.location.href.indexOf('/foru/coupons-deals.html'))window.location.replace('https://www.safeway.com/foru/coupons-deals.html');else{var d=[],f=function(){document.querySelectorAll('.load-more').forEach(function(a){return a.click()});window.scrollTo&&window.scrollTo(0,document.body.offsetHeight);window.setTimeout(function(){window.scrollBy&&window.scrollBy(0,-1)},100);window.setTimeout(h,2E3)},g=function(){var a=d.shift();if(a){var b=a,c=curTop=0;if(b.offsetParent){do c+= b.offsetLeft,curTop+=b.offsetTop;while(b=b.offsetParent)}window.scrollTo&&window.scrollTo(c,curTop-150);a.click()}0<d.length?window.setTimeout(g,500):f()},h=function(){for(var a=0,b=[...document.querySelectorAll('.grid-coupon-btn')].filter((link)=>link.id.indexOf('clipped')===-1),c=0,e;e=b[c++];)'none'!=getComputedStyle(e).display&&(d.push(e),a++);0<a&&g()};f()}})();">Just4U</a><br><br>
+    Drag this link to your bookmarks bar: <a href="javascript:!function(){var e,n,t,c,o,r,l,i,f,u='/foru/coupons-deals.html';window.location.href.indexOf(u)<0?window.location.replace('https://www.safeway.com'+u):(e={},n={},t=[],c=function(o){var e=curTop=0;if(o.offsetParent)for(;e+=o.offsetLeft,curTop+=o.offsetTop,o=o.offsetParent;);window.scrollTo&&window.scrollTo(e,curTop-150)},o=function(){i()>r()&&f()},r=function(){return Object.keys(n).length},i=function(){var e=0;return document.querySelectorAll('.grid-coupon-btn').forEach(o=>{'none'!=getComputedStyle(o).display&&(t.push(o),e++)}),console.warn('findActive',e,t),e},f=function(){var o=t.shift();o&&(e[o.id]?n[o.id]=!0:(console.warn('click',o),c(o),o.click(),e[o.id]=!0)),document.querySelectorAll('.btn-modal').forEach(o=>'Close'==o.innerText&&o.click()),t.length>r()?window.setTimeout(f,500):l()},(l=function(){console.warn('loadMore',t),document.querySelectorAll('.load-more').forEach(o=>{c(o),o.click()}),window.setTimeout(o,2e3)})())}();">Just4U</a>
+    <br><br>
     Example:<br>
     <img src="bookmarklet.png">
     <h3>Instructions</h3>
@@ -30,6 +31,8 @@
     window.location.replace('https://www.safeway.com' + url);
     return;
   }
+  var clicked = {};
+  var skipped = {};
   var toClick = [];
   var scrollToElement = function(el) {
     var curLeft = curTop = 0;
@@ -41,43 +44,53 @@
     }
     window.scrollTo && window.scrollTo(curLeft, curTop - 150);
   };
-  var scrollToBottom = function() {
-    document.querySelectorAll('.load-more').forEach((e) => e.click());
-    window.scrollTo && window.scrollTo(0, document.body.offsetHeight);
-    window.setTimeout(function() {
-      window.scrollBy && window.scrollBy(0, -1);
-    }, 100);
+  var clickAllActive = function() {
+    if (findActive() > skipCount()) {
+      clickNext();
+    }
+  };
+  var skipCount = function() {
+    return Object.keys(skipped).length;
+  }
+  var loadMore = function() {
+    console.warn('loadMore', toClick);
+    document.querySelectorAll('.load-more').forEach(el => {
+      scrollToElement(el);
+      el.click();
+    });
     window.setTimeout(clickAllActive, 2000);
   };
-  var findActive = function(selector) {
+  var findActive = function() {
     var count = 0;
-    var links = [...document.querySelectorAll(selector)].filter((link) => link.id.indexOf('clipped') === -1);
-    for (var i = 0, link; link = links[i++];) {
-      if (getComputedStyle(link).display != 'none') {
-        toClick.push(link);
+    document.querySelectorAll('.grid-coupon-btn').forEach(el => {
+      if (getComputedStyle(el).display != 'none') {
+        toClick.push(el);
         count++;
       }
-    }
+    })
+    console.warn('findActive', count, toClick);
     return count;
   };
   var clickNext = function() {
     var el = toClick.shift();
     if (el) {
-      scrollToElement(el);
-      el.click();
+      if (clicked[el.id]) {
+        skipped[el.id] = true;
+      } else {
+        console.warn('click', el);
+        scrollToElement(el);
+        el.click()
+        clicked[el.id] = true;
+      }
     }
-    if (toClick.length > 0) {
+    document.querySelectorAll('.btn-modal').forEach(el => (el.innerText == 'Close') && el.click())
+    if (toClick.length > skipCount()) {
       window.setTimeout(clickNext, 500);
     } else {
-      scrollToBottom();
+      loadMore();
     }
   };
-  var clickAllActive = function() {
-    if (findActive('.grid-coupon-btn') > 0) {
-      clickNext();
-    }
-  };
-  scrollToBottom();
+  loadMore();
 })();
     </pre>
   </body>

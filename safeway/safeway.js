@@ -4,6 +4,8 @@
     window.location.replace('https://www.safeway.com' + url);
     return;
   }
+  var clicked = {};
+  var skipped = {};
   var toClick = [];
   var scrollToElement = function(el) {
     var curLeft = curTop = 0;
@@ -15,41 +17,51 @@
     }
     window.scrollTo && window.scrollTo(curLeft, curTop - 150);
   };
-  var scrollToBottom = function() {
-    document.querySelectorAll('.load-more').forEach((e) => e.click());
-    window.scrollTo && window.scrollTo(0, document.body.offsetHeight);
-    window.setTimeout(function() {
-      window.scrollBy && window.scrollBy(0, -1);
-    }, 100);
+  var clickAllActive = function() {
+    if (findActive() > skipCount()) {
+      clickNext();
+    }
+  };
+  var skipCount = function() {
+    return Object.keys(skipped).length;
+  }
+  var loadMore = function() {
+    console.warn('loadMore', toClick);
+    document.querySelectorAll('.load-more').forEach(el => {
+      scrollToElement(el);
+      el.click();
+    });
     window.setTimeout(clickAllActive, 2000);
   };
-  var findActive = function(selector) {
+  var findActive = function() {
     var count = 0;
-    var links = [...document.querySelectorAll(selector)].filter((link) => link.id.indexOf('clipped') === -1);
-    for (var i = 0, link; link = links[i++];) {
-      if (getComputedStyle(link).display != 'none') {
-        toClick.push(link);
+    document.querySelectorAll('.grid-coupon-btn').forEach(el => {
+      if (getComputedStyle(el).display != 'none') {
+        toClick.push(el);
         count++;
       }
-    }
+    })
+    console.warn('findActive', count, toClick);
     return count;
   };
   var clickNext = function() {
     var el = toClick.shift();
     if (el) {
-      scrollToElement(el);
-      el.click();
+      if (clicked[el.id]) {
+        skipped[el.id] = true;
+      } else {
+        console.warn('click', el);
+        scrollToElement(el);
+        el.click()
+        clicked[el.id] = true;
+      }
     }
-    if (toClick.length > 0) {
+    document.querySelectorAll('.btn-modal').forEach(el => (el.innerText == 'Close') && el.click())
+    if (toClick.length > skipCount()) {
       window.setTimeout(clickNext, 500);
     } else {
-      scrollToBottom();
+      loadMore();
     }
   };
-  var clickAllActive = function() {
-    if (findActive('.grid-coupon-btn') > 0) {
-      clickNext();
-    }
-  };
-  scrollToBottom();
+  loadMore();
 })();
