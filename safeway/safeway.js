@@ -5,8 +5,8 @@
     return
   }
   function clipAll() {
-    const interval = 200
-    const buttons = document.querySelectorAll(".grid-coupon-btn")
+    const interval = 250
+    const buttons = document.querySelectorAll(".btn-primary")
     if (buttons.length > 0) {
       document.querySelector(".btn.load-more").dispatchEvent(new Event("click"))
       let delay = 0

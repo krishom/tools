@@ -13,7 +13,7 @@
   </head>
   <body>
     <h3>Bookmarklet</h3>
-    Drag this link to your bookmarks bar: <a href="javascript:!function(){var e='/foru/coupons-deals.html';window.location.href.indexOf(e)<0?window.location.replace('https://www.safeway.com'+e):function e(){var o=document.querySelectorAll('.grid-coupon-btn');if(0<o.length){document.querySelector('.btn.load-more').dispatchEvent(new Event('click'));let t=0;o.forEach(e=>setTimeout(()=>e.dispatchEvent(new Event('click')),t+=200)),setTimeout(e,t+200)}}()}();">Just4U</a>
+    Drag this link to your bookmarks bar: <a href="javascript:!function(){var e='/foru/coupons-deals.html';window.location.href.indexOf(e)<0?window.location.replace('https://www.safeway.com'+e):function e(){var n=document.querySelectorAll('.btn-primary');if(0<n.length){document.querySelector('.btn.load-more').dispatchEvent(new Event('click'));let t=0;n.forEach(e=>setTimeout(()=>e.dispatchEvent(new Event('click')),t+=250)),setTimeout(e,t+250)}}()}();">Just4U</a>
     <br><br>
     Example:<br>
     <img src="bookmarklet.png">
@@ -32,8 +32,8 @@
     return
   }
   function clipAll() {
-    const interval = 200
-    const buttons = document.querySelectorAll(".grid-coupon-btn")
+    const interval = 250
+    const buttons = document.querySelectorAll(".btn-primary")
     if (buttons.length > 0) {
       document.querySelector(".btn.load-more").dispatchEvent(new Event("click"))
       let delay = 0
