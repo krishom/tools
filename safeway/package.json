@@ -12,7 +12,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/krishom/tools/tree/master/safeway"
+    "url": "https://github.com/krishom/tools.git"
   },
   "homepage": "https://krishom.github.io/tools/safeway/",
   "devDependencies": {
