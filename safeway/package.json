@@ -1,10 +1,10 @@
 {
   "name": "safeway",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "safeway.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./build.sh"
+    "build": "./build.sh",
+    "format": "prettier . --write"
   },
   "keywords": [],
   "author": "Kris Hom <5077617+krishom@users.noreply.github.com> (https://github.com/krishom)",
@@ -16,6 +16,7 @@
   },
   "homepage": "https://krishom.github.io/tools/safeway/",
   "devDependencies": {
+    "prettier": "^3.3.3",
     "uglify-js": "^3.19.3"
   }
 }
