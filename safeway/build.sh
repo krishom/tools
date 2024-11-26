@@ -25,10 +25,11 @@ cat << EOF > index.html
   </head>
   <body>
     <h3>Bookmarklet</h3>
-    Drag this link to your bookmarks bar: <a href="javascript:$minified">Just4U</a>
-    <br><br>
-    Example:<br>
-    <img src="bookmarklet.png">
+    Drag this link to your bookmarks bar:
+    <a href="javascript:$minified">Just4U</a>
+    <br /><br />
+    Example:<br />
+    <img src="bookmarklet.png" />
     <h3>Instructions</h3>
     <ol>
       <li>Log in to the <a href="https://www.safeway.com/account/sign-in.html">safeway.com Coupon Center</a></li>
