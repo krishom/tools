@@ -3,7 +3,7 @@
   "version": "1.0.9",
   "main": "safeway.js",
   "scripts": {
-    "build": "./build.sh",
+    "build": "./build.sh; npm run format",
     "format": "prettier . --write"
   },
   "keywords": [],

@@ -1,27 +1,13 @@
 #!/bin/bash
 
-which uglifyjs || sudo npm install uglify-js -g
-
-# uglifyjs --compress --mangle -- safeway.js | tee safeway.uglify.js
-# uglifyjs --compress drop_console --mangle -- safeway.js | tee safeway.uglify.drop_console.js
-
-# npx google-closure-compiler --js=safeway.js --js_output_file=safeway.closure.js && cat safeway.closure.js
-
 original_file='safeway.js'
 original=$(< "$original_file")
-#minified=$(uglifyjs --compress drop_console --mangle -- "$original_file")
-minified=$(uglifyjs --compress --mangle -- "$original_file")
+minified=$(uglifyjs --compress --mangle --output-opts quote_style=1 -- "$original_file")
 
-echo
 echo "original ${#original}"
 echo "minified ${#minified}"
-echo "$minified"
-
-single_quote=${minified//\"/\'}
-
 echo
-echo "single_quote ${#single_quote}"
-echo "$single_quote"
+echo "$minified"
 
 cat << EOF > index.html
 <!doctype html>
@@ -39,7 +25,7 @@ cat << EOF > index.html
   </head>
   <body>
     <h3>Bookmarklet</h3>
-    Drag this link to your bookmarks bar: <a href="javascript:$(echo "$minified" | sed 's/"/\x27/g')">Just4U</a>
+    Drag this link to your bookmarks bar: <a href="javascript:$minified">Just4U</a>
     <br><br>
     Example:<br>
     <img src="bookmarklet.png">
