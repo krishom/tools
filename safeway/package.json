@@ -1,6 +1,6 @@
 {
   "name": "safeway",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "main": "safeway.js",
   "scripts": {
     "build": "./build.sh; npm run format",
