@@ -17,7 +17,9 @@
   };
   const clipAll = () => {
     const interval = 333;
-    const buttons = document.querySelectorAll(".btn-primary");
+    const buttons = document
+      .querySelector("coupon-grid")
+      .querySelectorAll(".btn-primary");
     if (buttons.length > 0) {
       scrollAndClick(document.querySelector(".btn.load-more"));
       let delay = 0;
