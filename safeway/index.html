@@ -15,7 +15,7 @@
     <h3>Bookmarklet</h3>
     Drag this link to your bookmarks bar:
     <a
-      href="javascript:(()=>{var e='/foru/coupons-deals.html';if(window.location.href.indexOf(e)<0)window.location.replace('https://www.safeway.com'+e);else{let o=e=>{e.scrollIntoView(),e.dispatchEvent(new Event('click'))},l=e=>{[...document.querySelectorAll(e)].forEach(e=>{0<e.offsetHeight&&e.click()})},c=()=>{var e=document.querySelector('coupon-grid').querySelectorAll('.btn-primary');if(0<e.length){o(document.querySelector('.btn.load-more'));let t=0;e.forEach(e=>setTimeout(()=>{o(e),l('button.close'),l('button.btn.btn-default.btn-modal')},t+=333)),setTimeout(c,t+333)}};c()}})();"
+      href="javascript:(()=>{var e='/foru/coupons-deals.html';if(window.location.href.indexOf(e)<0)window.location.replace('https://www.safeway.com'+e);else{let o=e=>{[...document.querySelectorAll(e)].forEach(e=>{0<e.offsetHeight&&e.click()})},e=()=>o('.btn.load-more'),l=()=>{e();var t=document.querySelector('coupon-grid').querySelectorAll('.btn-primary');if(0<t.length){let e=0;t.forEach(t=>setTimeout(()=>{var e;(e=t).scrollIntoView(),e.dispatchEvent(new Event('click')),o('button.close'),o('button.btn.btn-default.btn-modal')},e+=333)),setTimeout(l,e+333)}};e(),setTimeout(l,1e3),o('div[aria-label=\'Close\']'),o('div[aria-label=\'Close Notification\']')}})();"
       >Just4U</a
     >
     <br /><br />
@@ -53,13 +53,14 @@
       }
     });
   };
+  const loadMore = () => clickIfVisible(".btn.load-more");
   const clipAll = () => {
+    loadMore();
     const interval = 333;
     const buttons = document
       .querySelector("coupon-grid")
       .querySelectorAll(".btn-primary");
     if (buttons.length > 0) {
-      scrollAndClick(document.querySelector(".btn.load-more"));
       let delay = 0;
       buttons.forEach((btn) =>
         setTimeout(
@@ -74,7 +75,10 @@
       setTimeout(clipAll, delay + interval);
     }
   };
-  clipAll();
+  loadMore();
+  setTimeout(clipAll, 1000);
+  clickIfVisible(`div[aria-label='Close']`);
+  clickIfVisible(`div[aria-label='Close Notification']`);
 })();
     </pre>
   </body>

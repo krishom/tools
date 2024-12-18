@@ -15,13 +15,14 @@
       }
     });
   };
+  const loadMore = () => clickIfVisible(".btn.load-more");
   const clipAll = () => {
+    loadMore();
     const interval = 333;
     const buttons = document
       .querySelector("coupon-grid")
       .querySelectorAll(".btn-primary");
     if (buttons.length > 0) {
-      scrollAndClick(document.querySelector(".btn.load-more"));
       let delay = 0;
       buttons.forEach((btn) =>
         setTimeout(
@@ -36,5 +37,8 @@
       setTimeout(clipAll, delay + interval);
     }
   };
-  clipAll();
+  loadMore();
+  setTimeout(clipAll, 1000);
+  clickIfVisible(`div[aria-label='Close']`);
+  clickIfVisible(`div[aria-label='Close Notification']`);
 })();
